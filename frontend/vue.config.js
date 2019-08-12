@@ -1,5 +1,7 @@
 module.exports = {
-    publicPath: process.env.NODE_ENV === "production" ? "/community/" : "./",
+    // publicPath: process.env.NODE_ENV === "production" ? "/community/" : "./",
+    publicPath: "./",
+
     assetsDir: "static",
     productionSourceMap: false,
     // removeAttributeQuotes: false,
