@@ -12,6 +12,11 @@ export default {
     name: "home",
     components: {
         HelloWorld
+    },
+    mounted() {
+        api.getAllPosts().then(res => {
+            console.log(res);
+        });
     }
 };
 </script>

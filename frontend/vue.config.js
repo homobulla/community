@@ -15,7 +15,7 @@ module.exports = {
             },
             sass: {
                 // @/ 是 src/ 的别名
-                data: `@import "~@/assets/css/variables.sass";`
+                data: `@import "~@/assets/css/variables.scss";`
             }
         }
     }
