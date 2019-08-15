@@ -5,13 +5,7 @@ const checkNotLogin = require("../middlewares/check.js").checkNotLogin;
 const checkLogin = require("../middlewares/check.js").checkLogin;
 const moment = require("moment");
 const fs = require("fs");
-// 注册页面
-router.get("/signup", async (ctx, next) => {
-    // await checkNotLogin(ctx);
-    await ctx.render("signup", {
-        session: ctx.session
-    });
-});
+const Buffer = require('safer-buffer').Buffer; // 取代不安全的 new Buffer
 // post 注册
 router.post("/signup", async (ctx, next) => {
     let user = {

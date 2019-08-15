@@ -35,3 +35,20 @@
 ## socket
 
 目前加入了 socket ,但是所有的通信都是全体广播，需要有房间的概念，即需要改成单独通信。
+
+### 更新
+
+-   2019-08-15: 改为前后端分离
+-   node 分层代码 [前后端分离之 NodeJS+mysql 分层之美](https://www.jianshu.com/p/dab01487a9df)
+
+### node 分层说明
+
+-   bin：启动 http/https 服务
+-   commons：存放公共方法文件
+-   config：存放配置文件
+-   model：存放 dao 文件，负责和数据库交互
+-   service：存放 service 文件，负责和 dao 交互
+-   routers：存放 controller 文件，负责和 service 交互
+-   app.js：项目入口文件
+-   babelrc：babel 配置文件
+-   package.json：包依赖管理文件

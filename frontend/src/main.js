@@ -8,7 +8,6 @@ import router from "./router";
 import store from "./store";
 import toast from "./components/toast/plugin";
 import colors from "vuetify/lib/util/colors";
-
 const theme = new Vuetify({
     theme: {
         themes: {

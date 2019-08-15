@@ -121,6 +121,7 @@ router.post("/create", async (ctx, next) => {
 
 // 发表评论
 router.post("/:postId", async (ctx, next) => {
+    console.log(colors.green(11111));
     let name = ctx.session.user,
         content = ctx.request.body.content,
         postId = ctx.params.postId,
