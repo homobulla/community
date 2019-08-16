@@ -52,3 +52,7 @@
 -   app.js：项目入口文件
 -   babelrc：babel 配置文件
 -   package.json：包依赖管理文件
+
+# 登录逻辑问题
+
+cookie 以及 JWT
