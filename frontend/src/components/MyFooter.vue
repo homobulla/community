@@ -29,7 +29,7 @@ export default {
         icons: ["home", "email", "event", "more"],
         items: ["default", "absolute", "fixed"],
         padless: false,
-        variant: "fixed",
+        variant: "default",
         sheet: false
     }),
 

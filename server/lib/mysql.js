@@ -158,4 +158,4 @@ Mysql.createTable(users);
 Mysql.createTable(posts);
 Mysql.createTable(comment);
 
-module.exports = Mysql;
+module.exports = Mysqls;

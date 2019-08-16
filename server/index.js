@@ -5,7 +5,6 @@ const session = require("koa-session-minimal");
 const MysqlStore = require("koa-mysql-session");
 const config = require("./config/default.js");
 var cors = require("koa2-cors");
-const staticCache = require("koa-static-cache");
 const app = new Koa();
 const server = require("http").createServer(app.callback());
 const io = require("socket.io")(server);
@@ -34,10 +33,9 @@ app.use(
     })
 );
 
-// cookie
+// cookie 有问题没效果
 app.use(async (ctx, next) => {
     if (ctx.url === "/posts") {
-        console.log("====================", ctx.url, "============");
         ctx.cookies.set("cid", "hello world", {
             domain: "localhost", // 写cookie所在的域名
             path: "/", // 写cookie所在的路径
@@ -49,25 +47,6 @@ app.use(async (ctx, next) => {
     }
     await next();
 });
-// 缓存
-// app.use(
-//     staticCache(
-//         path.join(__dirname, "./public"),
-//         { dynamic: true },
-//         {
-//             maxAge: 365 * 24 * 60 * 60
-//         }
-//     )
-// );
-// app.use(
-//     staticCache(
-//         path.join(__dirname, "./images"),
-//         { dynamic: true },
-//         {
-//             maxAge: 365 * 24 * 60 * 60
-//         }
-//     )
-// );
 
 // 服务端渲染模板引擎
 
@@ -81,13 +60,13 @@ app.use(
 app.use(require("./routers/signup.js").routes());
 app.use(require("./routers/signin.js").routes());
 app.use(require("./routers/posts.js").routes());
+
 // 错误处理中间件
 // app.use(logger());
 app.use(function(ctx, next) {
     ctx.body = { error: "Not Found", message: false };
-    ctx.redirect("http://10.0.0.101:8080/#/");
     next();
 });
 server.listen(4000, function() {
-    console.log(`listening on port ${config.port}`);
+    console.log(`this is listening on port ${config.port}`);
 });

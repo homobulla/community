@@ -2,8 +2,17 @@
     <div id="app">
         <v-app>
             <div id="nav">
-                <router-link to="/">Home</router-link>|
-                <router-link to="/about">About</router-link>
+                <div class="text-center header">
+                    <v-btn class="indigo">
+                        <router-link to="/">首页</router-link>
+                    </v-btn>
+                    <v-btn class="deep-purple lighten-2">我的文章</v-btn>
+                    <v-btn class="blue lighten-3">发布文章</v-btn>
+                    <v-btn class="primary">
+                        <router-link to="/login">登录</router-link>
+                    </v-btn>
+                    <v-btn class="teal">注册</v-btn>
+                </div>
             </div>
             <router-view />
             <MyFooter />
@@ -35,5 +44,8 @@ export default {
                 color: #42b983;
             }
         }
+    }
+    .header .v-btn {
+        margin: 0 12px;
     }
 </style>

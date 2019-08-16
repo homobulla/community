@@ -5,39 +5,18 @@ const { checkNotLogin, checkLogin } = require("../middlewares/check");
 const md = require("markdown-it")();
 const colors = require("colors");
 const app = require("../index");
-
+const controller = require("../Controller/index");
+router.get("/", async (ctx, next) => {
+    ctx.body = "首页";
+});
 // 文章
-router.get("/posts", async (ctx, next) => {
-    let res,
-        postsLength,
-        name = decodeURIComponent(ctx.request.querystring.split("=")[1]);
-    if (ctx.request.querystring) {
-        await userModel.findDataByUser(name).then(result => {
-            postsLength = result.length;
-        });
-        await userModel.findPostByUserPage(name, 1).then(result => {
-            res = result;
-        });
-        await ctx.response.body({
-            session: ctx.session,
-            posts: res,
-            postsPageLength: Math.ceil(postsLength / 10)
-        });
-    } else {
-        await userModel.findPostByPage(1).then(result => {
-            res = result;
-        });
-        await userModel.findAllPost().then(result => {
-            postsLength = result.length;
-        });
+router.get("/allposts", (ctx, next) => {
+    return controller.getAllPosts(ctx, next);
+});
 
-        ctx.body = {
-            session: ctx.session,
-            posts: res,
-            postsLength: postsLength,
-            postsPageLength: Math.ceil(postsLength / 10)
-        };
-    }
+// 单篇文章详情
+router.get("/posts", (ctx, next) => {
+    return controller.getArticleById(ctx, next);
 });
 
 // 首页文章默认十条
@@ -64,32 +43,6 @@ router.post("/posts/self/page", async (ctx, next) => {
         .catch(err => {
             ctx.body = err;
         });
-});
-
-// 单篇文章详情
-router.get("/posts/:postId", async (ctx, next) => {
-    let comment_res, res, pageOne, res_pv;
-
-    await userModel.findDataById(ctx.params.postId).then(result => {
-        res = result;
-        res_pv = parseInt(res[0].pv);
-        res_pv++;
-    });
-
-    await userModel.updatePostPv(res_pv, ctx.params.postId);
-    await userModel.findCommentByPage(1, ctx.params.postId).then(result => {
-        pageOne = result; // 第一页数数据永远是
-    });
-    await userModel.findCommentById(ctx.params.postId).then(result => {
-        comment_res = result;
-    });
-    await ctx.render("sPost", {
-        session: ctx.session,
-        posts: res[0],
-        commentLenght: comment_res.length,
-        commentPageLenght: Math.ceil(comment_res.length / 10),
-        pageOne: pageOne
-    });
 });
 
 // 发表文章页面
@@ -120,7 +73,7 @@ router.post("/create", async (ctx, next) => {
 });
 
 // 发表评论
-router.post("/:postId", async (ctx, next) => {
+router.post("/comment:postId", async (ctx, next) => {
     console.log(colors.green(11111));
     let name = ctx.session.user,
         content = ctx.request.body.content,
