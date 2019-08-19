@@ -1,15 +1,16 @@
 const Koa = require("koa");
 const path = require("path");
 const bodyParse = require("koa-bodyparser");
-const session = require("koa-session-minimal");
-const MysqlStore = require("koa-mysql-session");
+
 const config = require("./config/default.js");
 var cors = require("koa2-cors");
 const app = new Koa();
 const server = require("http").createServer(app.callback());
 const io = require("socket.io")(server);
 const logger = require("./middlewares/logger");
-module.exports = { io };
+// module.exports = { io };
+const JWTToken = require("./middlewares/JWTToken");
+
 // session配置
 const sessionMysqlConfig = {
     user: config.database.USERNAME,
@@ -18,6 +19,7 @@ const sessionMysqlConfig = {
     host: config.database.HOST
 };
 // cors配置
+
 app.use(
     cors({
         origin: "*", // 可以是一个函数，将ctx对象传入针对不同请求做区分
@@ -26,12 +28,7 @@ app.use(
         allowHeaders: ["Content-Type", "Authorization", "Accept"]
     })
 );
-app.use(
-    session({
-        key: "USER_SID",
-        store: new MysqlStore(sessionMysqlConfig)
-    })
-);
+app.use(JWTToken());
 
 // 服务端渲染模板引擎
 
@@ -42,6 +39,7 @@ app.use(
 );
 
 // 路由
+
 app.use(require("./routers/signup.js").routes());
 app.use(require("./routers/signin.js").routes());
 app.use(require("./routers/posts.js").routes());

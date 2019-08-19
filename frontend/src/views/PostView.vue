@@ -57,13 +57,12 @@ export default {
         let postId = this.postId;
         api.getPostById({ postId })
             .then(res => {
-                // console.log(res);
                 if (res.message) {
                     this.res = res.data;
                 }
             })
             .catch(err => {
-                console.log(err);
+                console.log(err, "errrr");
             });
     }
 };

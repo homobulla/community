@@ -1,7 +1,7 @@
 const router = require("koa-router")();
 const userModel = require("../lib/mysql");
 const moment = require("moment");
-const { checkNotLogin, checkLogin } = require("../middlewares/check");
+const { checkNotLogin, checkLogin } = require("../middlewares/JWTPath");
 const md = require("markdown-it")();
 const colors = require("colors");
 const app = require("../index");

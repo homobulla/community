@@ -30,6 +30,7 @@ class PostModel extends Mysql {
                 postsPageLength: Math.ceil(postsLength / 10)
             };
             this.data.message = true;
+
             ctx.body = this.data;
         } else {
             await super.findPostByPage(1).then(result => {

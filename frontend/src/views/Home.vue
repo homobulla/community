@@ -23,9 +23,13 @@ export default {
         Article
     },
     mounted() {
-        api.getAllPosts().then(res => {
-            res.message && (this.list = res.data.posts);
-        });
+        api.getAllPosts()
+            .then(res => {
+                res.message && (this.list = res.data.posts);
+            })
+            .catch(err => {
+                console.log(err, "rrrr");
+            });
     }
 };
 </script>

@@ -2,7 +2,8 @@ import axios from "axios";
 import QS from "qs";
 // axios.use(Toast);
 import Vue from "vue";
-
+import router from "../router";
+import { setTimeout } from "timers";
 // 环境切换
 const surroundings = {
     development: "http://10.0.0.101:4000/",
@@ -29,18 +30,22 @@ axios.interceptors.response.use(
         if (error.response.status) {
             switch (error.response.status) {
                 case 401:
-                    router.replace({
-                        path: "/login",
-                        query: {
-                            redirect: router.currentRoute.fullPath
-                        }
+                    Toast({
+                        content: "未登录",
+                        type: "warning"
                     });
+                    localStorage.removeItem("token");
+                    setTimeout(() => {
+                        router.replace({
+                            path: "/login",
+                            query: {
+                                redirect: router.currentRoute.fullPath
+                            }
+                        });
+                    }, 1000);
+
                     break;
 
-                // 403 token过期
-                // 登录过期对用户进行提示
-                // 清除本地token和清空vuex中token对象
-                // 跳转登录页面
                 case 403:
                     Toast({
                         content: "登录过期，请重新登录",
@@ -92,9 +97,12 @@ export function get(url, params) {
                 params: params
             })
             .then(res => {
+                console.log("test");
+
                 resolve(res.data);
             })
             .catch(err => {
+                console.log("test");
                 reject(err.data);
             });
     });
