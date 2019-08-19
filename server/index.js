@@ -33,21 +33,6 @@ app.use(
     })
 );
 
-// cookie 有问题没效果
-app.use(async (ctx, next) => {
-    if (ctx.url === "/posts") {
-        ctx.cookies.set("cid", "hello world", {
-            domain: "localhost", // 写cookie所在的域名
-            path: "/", // 写cookie所在的路径
-            maxAge: 10 * 60 * 1000, // cookie有效时长
-            expires: new Date("2019-09-15"), // cookie失效时间
-            httpOnly: false, // 是否只用于http请求中获取
-            overwrite: false // 是否允许重写
-        });
-    }
-    await next();
-});
-
 // 服务端渲染模板引擎
 
 app.use(

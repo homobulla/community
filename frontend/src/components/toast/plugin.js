@@ -8,9 +8,7 @@ export default {
             return new Promise(resolve => {
                 if (!toast) {
                     toast = new VueToast();
-
                     toast.$mount();
-
                     document.querySelector(options.container || "body").appendChild(toast.$el);
                 }
                 toast.show(params);

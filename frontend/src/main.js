@@ -7,6 +7,8 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import toast from "./components/toast/plugin";
+import loading from "./components/loading/plugin";
+
 import colors from "vuetify/lib/util/colors";
 const theme = new Vuetify({
     theme: {
@@ -24,6 +26,7 @@ const theme = new Vuetify({
     }
 });
 Vue.use(toast);
+Vue.use(loading);
 Vue.use(Vuetify);
 import api from "./utils/api";
 global.api = api;

@@ -2,8 +2,10 @@
     <div class="login">
         <p>欢迎</p>
         <div>
-            <input type="text" placeholder="用户名" v-model="name" />
-            <input type="password" placeholder="密码" v-model="password" />
+            <form action>
+                <input type="text" placeholder="用户名" v-model="name" />
+                <input type="password" placeholder="密码" v-model="password" autocomplete="on" />
+            </form>
             <v-btn @click="login">登录</v-btn>
         </div>
     </div>
@@ -26,21 +28,20 @@ export default {
                 });
                 return;
             }
+            // this.$loading(true);
+
             api.login({ name: this.name, password: this.password })
                 .then(res => {
-                    console.log(res);
-
+                    this.$loading(false);
+                    var type = res.message ? "success" : "error";
+                    this.$toast({
+                        content: res.log,
+                        type
+                    });
                     if (res.message) {
-                        this.$toast({
-                            content: res.log,
-                            type: "success"
-                        });
-                        localStorage.setItem("");
-                    } else {
-                        this.$toast({
-                            content: res.log,
-                            type: "error"
-                        });
+                        localStorage.setItem("userId", res.data.id);
+                        localStorage.setItem("name", res.data.user);
+                        localStorage.setItem("login", "success");
                     }
                 })
                 .catch(err => {

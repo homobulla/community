@@ -14,11 +14,9 @@ class LoginModel extends Mysql {
     }
     async login(ctx, next) {
         let { name, password } = ctx.request.body;
-
         await super
             .findDataByName(name)
             .then(res => {
-                console.log(res, "ressssssss");
                 if (res[0] && name === res[0]["name"] && md5(password) === res[0]["pass"]) {
                     this.data = {
                         message: true,
@@ -36,6 +34,8 @@ class LoginModel extends Mysql {
                         log: "登录失败，账户或密码错误！"
                     };
                 }
+                ctx.session.user = res[0]["name"];
+                ctx.session.id = res[0]["id"];
                 ctx.body = this.data;
             })
             .catch(err => {
