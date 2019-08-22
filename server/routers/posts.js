@@ -19,6 +19,16 @@ router.get("/posts", (ctx, next) => {
     return controller.getArticleById(ctx, next);
 });
 
+// 发表评论
+router.post("/comment", async (ctx, next) => {
+    return controller.commentArticle(ctx, next);
+});
+
+// 删除评论
+router.post("/comment/remove", async (ctx, next) => {
+    return controller.deletComments(ctx, next);
+});
+
 // 首页文章默认十条
 router.post("/posts/page", async (ctx, next) => {
     let page = ctx.request.body.page;
@@ -72,45 +82,6 @@ router.post("/create", async (ctx, next) => {
         });
 });
 
-// 发表评论
-router.post("/comment:postId", async (ctx, next) => {
-    console.log(colors.green(11111));
-    let name = ctx.session.user,
-        content = ctx.request.body.content,
-        postId = ctx.params.postId,
-        res_comments,
-        time = moment().format("YYYY-MM-DD HH:mm:ss"),
-        avator,
-        person,
-        url = ctx.request.header.referer;
-    // 获取用户头像
-    await userModel.findUserData(ctx.session.user).then(res => {
-        avator = res[0].avator;
-    });
-    // 写入数据
-    await userModel.insertComment([name, md.render(content), time, postId, avator]);
-
-    await userModel.findDataById(postId).then(result => {
-        res_comments = parseInt(result[0]["comments"]);
-        res_comments += 1;
-        person = result[0].name;
-    });
-    await userModel
-        .updatePostComment([res_comments, postId])
-        .then(() => {
-            console.log(colors.green("这里会触发几次"));
-            //  user 评论人 person发帖人即需要通知的人
-            if (ctx.session.user != person) {
-                app.io.emit("comment", { user: ctx.session.user, person, url });
-            }
-            ctx.body = true;
-        })
-        .catch(err => {
-            console.log(err);
-            ctx.body = false;
-        });
-});
-
 // 评论分页
 router.post("/posts/:postId/commentPage", async (ctx, next) => {
     let postId = ctx.params.postId,
@@ -136,31 +107,6 @@ router.post("/posts/:postId/remove", async (ctx, next) => {
             };
         })
         .catch(err => {
-            ctx.body = {
-                data: 2
-            };
-        });
-});
-// 删除评论
-router.post("/posts/:postId/comment/:commentId/remove", async (ctx, next) => {
-    let { postId, commentId } = ctx.params;
-    let account;
-    // 删评论
-    await userModel.deletComment(commentId);
-    // 获取当前评论数
-    await userModel.findDataById(postId).then(res => {
-        account = --res[0].comments < 0 ? 0 : --res[0].comments;
-    });
-
-    // 评论数修改 -1
-    await userModel
-        .updatePostComment([account, postId])
-        .then(_ => {
-            ctx.body = {
-                data: 1
-            };
-        })
-        .catch(_ => {
             ctx.body = {
                 data: 2
             };

@@ -28,19 +28,17 @@ export default {
                 });
                 return;
             }
-            // this.$loading(true);
 
             api.login({ name: this.name, password: this.password })
                 .then(res => {
                     this.$loading(false);
-                    var type = res.message ? "success" : "error";
-                    this.$toast({
-                        content: res.log,
-                        type
-                    });
-                    if (res.message) {
+                    console.log(res);
+
+                    if (res.success) {
                         localStorage.setItem("userId", res.data.id);
                         localStorage.setItem("name", res.data.user);
+                        localStorage.setItem("token", res.data.token);
+
                         localStorage.setItem("login", "success");
                     }
                 })

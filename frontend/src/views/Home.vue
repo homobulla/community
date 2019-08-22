@@ -25,10 +25,12 @@ export default {
     mounted() {
         api.getAllPosts()
             .then(res => {
-                res.message && (this.list = res.data.posts);
+                if (res.success) {
+                    this.list = res.data.posts;
+                }
             })
             .catch(err => {
-                console.log(err, "rrrr");
+                console.log(err);
             });
     }
 };

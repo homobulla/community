@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const secret = require("../config/secret");
 const util = require("util");
-const verify = util.promisify(jwt.verify);
+const verify = util.promisify(jwt.verify); //将回调函数promise化，写法修改
 const JWTPath = require("./JWTPath");
 
 /**
@@ -14,7 +14,6 @@ module.exports = function() {
             await next();
             return false;
         }
-
         try {
             // 获取jwt
             const token = ctx.header.authorization;
@@ -22,20 +21,20 @@ module.exports = function() {
                 let payload;
                 try {
                     // 解密payload，获取用户名和ID
-                    payload = await verify(token.split(" ")[1], secret.sign);
+                    payload = await verify(token, secret.sign);
+                    console.log(payload);
                     ctx.user = {
-                        name: payload.name,
-                        email: payload.email,
-                        id: payload.id
+                        name: payload.name
                     };
+                    await next();
                 } catch (err) {
+                    console.log(err, "errrrr");
                     ctx.status = 401;
                     ctx.body = {
                         code: 401,
-                        message: "Token身份无效!"
+                        message: "Token无效!"
                     };
                 }
-                await next();
             } else {
                 ctx.status = 401;
                 ctx.body = {

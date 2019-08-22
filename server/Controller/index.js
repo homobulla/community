@@ -1,15 +1,13 @@
 const Mysql = require("../lib/mysql");
-
+const responseData = require("../middlewares/responseData");
+const moment = require("moment");
+const { commentSchemas } = require("../lib/validator");
+const colors = require("colors");
 class PostModel extends Mysql {
     constructor(ctx, next) {
         super();
         this.ctx = ctx;
         this.next = next;
-        // 统一的数据格式
-        this.data = {
-            message: "",
-            data: ""
-        };
     }
     // 获取全部文章
     async getAllPosts(ctx, next) {
@@ -24,14 +22,12 @@ class PostModel extends Mysql {
                 res = result;
             });
 
-            this.data.data = {
+            let data = {
                 session: ctx.session,
                 posts: res,
                 postsPageLength: Math.ceil(postsLength / 10)
             };
-            this.data.message = true;
-
-            ctx.body = this.data;
+            responseData(ctx, { data });
         } else {
             await super.findPostByPage(1).then(result => {
                 res = result;
@@ -40,14 +36,13 @@ class PostModel extends Mysql {
                 postsLength = result.length;
             });
 
-            this.data.data = {
+            let data = {
                 session: ctx.session,
                 posts: res,
                 postsLength: postsLength,
                 postsPageLength: Math.ceil(postsLength / 10)
             };
-            this.data.message = true;
-            ctx.body = this.data;
+            responseData(ctx, { data });
         }
     }
     // 获取单篇文章
@@ -67,15 +62,87 @@ class PostModel extends Mysql {
         await super.findCommentById(ctx.query.postId).then(result => {
             comment_res = result;
         });
-        this.data.message = true;
-        this.data.data = {
+
+        let data = {
             session: ctx.session,
             posts: res[0],
             commentLenght: comment_res.length,
             commentPageLenght: Math.ceil(comment_res.length / 10),
             pageOne: pageOne
         };
-        ctx.body = this.data;
+        responseData(ctx, { data });
+    }
+    // 新增评论
+    async commentArticle(ctx, next) {
+        let name = ctx.user ? ctx.user.name : "",
+            content = ctx.request.body.content,
+            postId = ctx.request.body.postId,
+            res_comments,
+            time = moment().format("YYYY-MM-DD HH:mm:ss"),
+            avator,
+            person,
+            url = ctx.request.header.referer;
+
+        // 字段校验
+        const ret = await commentSchemas(ctx, { postId, content }, "comment");
+        if (ret) {
+            return;
+        }
+        // 获取用户头像
+        await super.findUserData(name).then(res => {
+            avator = res[0].avator;
+        });
+        // 写入数据
+        await super.insertComment([name, content, time, postId, avator]);
+
+        await super.findDataById(postId).then(result => {
+            res_comments = parseInt(result[0]["comments"]);
+            res_comments += 1;
+            person = result[0].name;
+        });
+        await super
+            .updatePostComment([res_comments, postId])
+            .then(() => {
+                //  user 评论人 person发帖人即需要通知的人
+                // if (ctx.session.user != person) {
+                //     app.io.emit("comment", { user: ctx.session.user, person, url });
+                // }
+                let log = "评论成功！";
+                responseData(ctx, { log });
+            })
+            .catch(err => {
+                let log = "评论失败！";
+                responseData(ctx, { log });
+            });
+    }
+    // 删除评论
+    async deletComments(ctx, next) {
+        let { postId, commentId } = ctx.request.body;
+        let account;
+
+        // 字段校验
+        const ret = await commentSchemas(ctx, { postId, commentId }, "removeComment");
+        if (ret) {
+            return;
+        }
+        // 删评论
+        await super.deletComment(commentId);
+        // 获取当前评论数
+        await super.findDataById(postId).then(res => {
+            account = --res[0].comments < 0 ? 0 : --res[0].comments;
+        });
+
+        // 评论数修改 -1
+        await super
+            .updatePostComment([account, postId])
+            .then(_ => {
+                let log = "删除评论成功！";
+                responseData(ctx, { log });
+            })
+            .catch(_ => {
+                let log = "删除评论失败！";
+                responseData(ctx, { log, data: _ });
+            });
     }
 }
 

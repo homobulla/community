@@ -14,6 +14,20 @@ axios.defaults.baseURL = surroundings[process.env.NODE_ENV];
 // 请求超时时长
 axios.defaults.timeout = 10000;
 
+//  请求拦截
+axios.interceptors.request.use(
+    config => {
+        // 这里的config包含每次请求的内容
+
+        if (localStorage.getItem("token")) {
+            config.headers.Authorization = localStorage.getItem("token");
+        }
+        return config;
+    },
+    err => {
+        return Promise.reject(err);
+    }
+);
 // 响应拦截器
 axios.interceptors.response.use(
     response => {
@@ -34,7 +48,7 @@ axios.interceptors.response.use(
                         content: "未登录",
                         type: "warning"
                     });
-                    localStorage.removeItem("token");
+                    // localStorage.removeItem("token");
                     setTimeout(() => {
                         router.replace({
                             path: "/login",
@@ -67,7 +81,6 @@ axios.interceptors.response.use(
 
                 // 404请求不存在
                 case 404:
-                    console.log("network errors", Toast);
                     Toast({
                         content: "网络请求不存在",
                         type: "error"
@@ -76,7 +89,7 @@ axios.interceptors.response.use(
                 // 其他错误，直接抛出错误提示
                 default:
                     Toast({
-                        content: error.response.data.message,
+                        content: error.response.data.log,
                         type: "error"
                     });
             }
@@ -97,12 +110,9 @@ export function get(url, params) {
                 params: params
             })
             .then(res => {
-                console.log("test");
-
                 resolve(res.data);
             })
             .catch(err => {
-                console.log("test");
                 reject(err.data);
             });
     });
@@ -117,6 +127,10 @@ export function post(url, params) {
         axios
             .post(url, QS.stringify(params))
             .then(res => {
+                Vue.prototype.$toast({
+                    content: res.data.log,
+                    type: res.data.success ? "success" : "error"
+                });
                 resolve(res.data);
             })
             .catch(err => {
