@@ -1,3 +1,10 @@
+/*
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-08-13 10:22:16
+ * @LastEditTime: 2019-08-23 16:56:04
+ * @LastEditors: Please set LastEditors
+ */
 export default {
     install: function(Vue, opt) {
         (Vue.prototype.getQueryString = function(name) {

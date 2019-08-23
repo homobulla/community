@@ -1,3 +1,10 @@
+/*
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-08-13 12:02:24
+ * @LastEditTime: 2019-08-23 15:31:54
+ * @LastEditors: Please set LastEditors
+ */
 const mysql = require("mysql");
 const config = require("../config/default");
 // const colors = require("colors");
@@ -12,7 +19,7 @@ let users = `create table if not exists users(
 	id INT NOT NULL AUTO_INCREMENT,
 	name VARCHAR(100) NOT NULL,
 	pass VARCHAR(100) NOT NULL,
-	avator VARCHAR(100) NOT NULL,
+	avator LONGTEXT NOT NULL,
 	moment VARCHAR(100) NOT NULL,
 	PRIMARY KEY (id)
 )`;
@@ -27,7 +34,7 @@ let posts = `create table if not exists posts(
 	moment VARCHAR(100) NOT NULL,
 	comments VARCHAR(200) NOT NULL DEFAULT '0',
 	pv VARCHAR(40) NOT NULL DEFAULT '0',
-	avator VARCHAR(100) NOT NULL,
+	avator LONGTEXT NOT NULL,
 	PRIMARY KEY ( id )
 );`;
 
@@ -37,7 +44,7 @@ let comment = `create table if not exists comment(
 	content TEXT(0) NOT NULL,
 	moment VARCHAR(40) NOT NULL,
 	postid VARCHAR(40) NOT NULL,
-	avator VARCHAR(100) NOT NULL,
+	avator LONGTEXT NOT NULL,
 	PRIMARY KEY ( id )
 );`;
 

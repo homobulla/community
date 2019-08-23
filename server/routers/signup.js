@@ -1,10 +1,17 @@
+/*
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-08-13 12:02:24
+ * @LastEditTime: 2019-08-23 14:45:21
+ * @LastEditors: Please set LastEditors
+ */
 const router = require("koa-router")();
 const userModel = require("../lib/mysql.js");
 const md5 = require("md5");
 
 const moment = require("moment");
 const fs = require("fs");
-const Buffer = require('safer-buffer').Buffer; // 取代不安全的 new Buffer
+const Buffer = require("safer-buffer").Buffer; // 取代不安全的 new Buffer
 // post 注册
 router.post("/signup", async (ctx, next) => {
     let user = {
@@ -14,7 +21,6 @@ router.post("/signup", async (ctx, next) => {
         avator: ctx.request.body.avator
     };
     await userModel.findDataByName(user.name).then(async result => {
-        console.log(result);
         if (result.length) {
             try {
                 throw Error("用户已经存在");
@@ -34,12 +40,7 @@ router.post("/signup", async (ctx, next) => {
             // ctx.session.user=ctx.request.body.name
             let base64Data = user.avator.replace(/^data:image\/\w+;base64,/, "");
             let dataBuffer = new Buffer(base64Data, "base64");
-            let =
-                Number(
-                    Math.random()
-                        .toString()
-                        .substr(3)
-                ).toString(36) + Date.now();
+
             await fs.writeFile("./public/images/" + getName + ".png", dataBuffer, err => {
                 if (err) throw err;
                 console.log("头像上传成功");

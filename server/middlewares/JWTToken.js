@@ -1,3 +1,10 @@
+/*
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-08-19 17:22:28
+ * @LastEditTime: 2019-08-23 15:46:37
+ * @LastEditors: Please set LastEditors
+ */
 const jwt = require("jsonwebtoken");
 const secret = require("../config/secret");
 const util = require("util");
@@ -16,7 +23,10 @@ module.exports = function() {
         }
         try {
             // 获取jwt
-            const token = ctx.header.authorization;
+            // 后端用cookie来存token,前端不需要做这个操作了
+            // const token = ctx.header.authorization;
+            const token = ctx.cookies.get("seesion", { signed: true });
+
             if (token) {
                 let payload;
                 try {
@@ -24,11 +34,11 @@ module.exports = function() {
                     payload = await verify(token, secret.sign);
                     console.log(payload);
                     ctx.user = {
-                        name: payload.name
+                        name: payload.name,
+                        ip: payload.ip
                     };
                     await next();
                 } catch (err) {
-                    console.log(err, "errrrr");
                     ctx.status = 401;
                     ctx.body = {
                         code: 401,

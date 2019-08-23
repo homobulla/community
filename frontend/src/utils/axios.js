@@ -1,3 +1,10 @@
+/*
+ * @Description: 封装axios
+ * @Author: your homobulla
+ * @Date: 2019-08-13 10:23:30
+ * @LastEditTime: 2019-08-23 14:57:11
+ * @LastEditors: Please set LastEditors
+ */
 import axios from "axios";
 import QS from "qs";
 // axios.use(Toast);
@@ -13,7 +20,7 @@ axios.defaults.baseURL = surroundings[process.env.NODE_ENV];
 
 // 请求超时时长
 axios.defaults.timeout = 10000;
-
+axios.defaults.withCredentials = true;
 //  请求拦截
 axios.interceptors.request.use(
     config => {

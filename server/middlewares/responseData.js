@@ -1,3 +1,10 @@
+/*
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-08-22 12:20:32
+ * @LastEditTime: 2019-08-23 14:10:17
+ * @LastEditors: Please set LastEditors
+ */
 // 统一返回值
 module.exports = function(ctx, obj = {}) {
     const { data = {}, log, code, err } = obj;

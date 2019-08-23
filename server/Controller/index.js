@@ -1,3 +1,10 @@
+/*
+ * @Description: 业务函数
+ * @Author: homobulla
+ * @Date: 2019-08-16 14:34:22
+ * @LastEditTime: 2019-08-23 15:43:42
+ * @LastEditors: Please set LastEditors
+ */
 const Mysql = require("../lib/mysql");
 const responseData = require("../middlewares/responseData");
 const moment = require("moment");
@@ -74,7 +81,7 @@ class PostModel extends Mysql {
     }
     // 新增评论
     async commentArticle(ctx, next) {
-        let name = ctx.user ? ctx.user.name : "",
+        let name = ctx.user ? ctx.user.name : "homo",
             content = ctx.request.body.content,
             postId = ctx.request.body.postId,
             res_comments,
@@ -85,9 +92,7 @@ class PostModel extends Mysql {
 
         // 字段校验
         const ret = await commentSchemas(ctx, { postId, content }, "comment");
-        if (ret) {
-            return;
-        }
+        if (ret) return;
         // 获取用户头像
         await super.findUserData(name).then(res => {
             avator = res[0].avator;
@@ -122,14 +127,12 @@ class PostModel extends Mysql {
 
         // 字段校验
         const ret = await commentSchemas(ctx, { postId, commentId }, "removeComment");
-        if (ret) {
-            return;
-        }
+        if (ret) return;
         // 删评论
         await super.deletComment(commentId);
         // 获取当前评论数
         await super.findDataById(postId).then(res => {
-            account = --res[0].comments < 0 ? 0 : --res[0].comments;
+            account = res[0].comments-- < 0 ? 0 : res[0].comments--;
         });
 
         // 评论数修改 -1

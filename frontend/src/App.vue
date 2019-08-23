@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-08-12 17:57:52
+ * @LastEditTime: 2019-08-23 19:09:04
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
     <div id="app">
         <v-app>
@@ -8,9 +15,12 @@
                     </v-btn>
                     <v-btn class="deep-purple lighten-2">我的文章</v-btn>
                     <v-btn class="blue lighten-3">发布文章</v-btn>
-                    <v-btn class="primary">
+
+                    <v-btn class="primary" v-if="$store.state.isLogin" @click="loginout">退出登录</v-btn>
+                    <v-btn class="primary" v-else>
                         <router-link to="/login">登录</router-link>
                     </v-btn>
+
                     <v-btn class="teal">注册</v-btn>
                 </div>
             </div>
@@ -21,9 +31,35 @@
 </template>
 <script>
 import MyFooter from "./components/MyFooter";
+import { mapState, mapMutations } from "vuex";
 export default {
     components: {
         MyFooter
+    },
+    data() {
+        return {
+            // isLogin: this.$store.state.isLogin
+        };
+    },
+    computed: {
+        // ...mapState(["isLogin"])
+    },
+    mounted() {},
+    methods: {
+        ...mapMutations(["LOGIN_STATUS"]),
+        loginout() {
+            api.loginout()
+                .then(res => {
+                    if (res.success) {
+                        localStorage.removeItem("login");
+                        localStorage.removeItem("name");
+                        localStorage.removeItem("userId");
+                        this.isLogin = localStorage.getItem("login");
+                        this.LOGIN_STATUS(false);
+                    }
+                })
+                .catch(err => {});
+        }
     }
 };
 </script>

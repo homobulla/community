@@ -1,3 +1,10 @@
+/*
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-08-22 16:28:32
+ * @LastEditTime: 2019-08-23 14:46:40
+ * @LastEditors: Please set LastEditors
+ */
 const Joi = require("joi");
 const commentSchema = {
     postId: Joi.number()
@@ -12,7 +19,7 @@ const commentSchema = {
 };
 var obj = {};
 let value = Joi.validate(obj, commentSchema);
-console.log(value);
+
 const commentSchemas = function(ctx, obj) {
     console.log(obj, "=============");
     return new Promise((resolve, reject) => {

@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-08-16 17:32:50
+ * @LastEditTime: 2019-08-23 18:56:27
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
     <div class="login">
         <p>欢迎</p>
@@ -11,6 +18,8 @@
     </div>
 </template>
 <script>
+import rsa from "../utils/rsa";
+import { mapMutations } from "vuex";
 export default {
     name: "login",
     data() {
@@ -20,6 +29,7 @@ export default {
         };
     },
     methods: {
+        ...mapMutations(["LOGIN_STATUS"]),
         login() {
             if (!this.name || !this.password) {
                 this.$toast({
@@ -28,18 +38,15 @@ export default {
                 });
                 return;
             }
-
-            api.login({ name: this.name, password: this.password })
+            let password = rsa(String(this.password)); //加密
+            api.login({ name: this.name, password })
                 .then(res => {
                     this.$loading(false);
-                    console.log(res);
-
                     if (res.success) {
                         localStorage.setItem("userId", res.data.id);
                         localStorage.setItem("name", res.data.user);
-                        localStorage.setItem("token", res.data.token);
-
                         localStorage.setItem("login", "success");
+                        this.LOGIN_STATUS(false);
                     }
                 })
                 .catch(err => {

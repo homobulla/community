@@ -1,2 +1,9 @@
-// 无需 JWT 验证的接口列表
-module.exports = ["/login"];
+/*
+ * @Description: 无需登录的接口
+ * @Author: homobulla
+ * @Date: 2019-08-13 12:02:24
+ * @LastEditTime: 2019-08-23 15:44:15
+ * @LastEditors: Please set LastEditors
+ */
+
+module.exports = ["/login", "logout"];

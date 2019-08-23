@@ -1,3 +1,11 @@
+<!--
+ * @Description: 说明文档
+ * @Author: homobulla
+ * @Date: 2019-08-13 12:02:24
+ * @LastEditTime: 2019-08-23 16:05:26
+ * @LastEditors: Please set LastEditors
+ -->
+
 ## node+mysql+koa 搭建的博客
 
 ### 原文地址
@@ -53,7 +61,21 @@
 -   babelrc：babel 配置文件
 -   package.json：包依赖管理文件
 
-# 登录逻辑问题
+### 登录逻辑问题
 
 cookie 以及 JWT
 将另一个项目中的 TOKEN 登录逻辑扔过来。
+
+### package.json
+
+-   [koa-helmet](https://juejin.im/post/5bd1e6136fb9a05d0a057316): 设置 Http 头保障应用程序安全
+
+### 登录相关
+
+首先用 ip 和其他参数生成一个 `token`，然后设置一个签名的`cookie`来进行存放`token`，让前端接口请求自动携带`cookie`，不知道这样绕了一圈有没有什么问题。
+
+其次是账号密码传输的问题，明文传输。
+
+### 问题
+
+1. 签名`cookie`发送的同时也把明文的传了过去。

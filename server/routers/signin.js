@@ -1,3 +1,10 @@
+/*
+ * @Description: 个人相关路由层
+ * @Author: homobulla
+ * @Date: 2019-08-13 12:02:24
+ * @LastEditTime: 2019-08-23 17:36:29
+ * @LastEditors: Please set LastEditors
+ */
 const router = require("koa-router")();
 const userModel = require("../lib/mysql.js");
 
@@ -6,9 +13,7 @@ router.post("/login", async (ctx, next) => {
     return controller.login(ctx, next);
 });
 
-router.get("/signout", async (ctx, next) => {
-    ctx.session = "";
-    ctx.user = "";
-    ctx.body = true;
+router.post("/loginout", async (ctx, next) => {
+    return controller.loginout(ctx, next);
 });
 module.exports = router;
