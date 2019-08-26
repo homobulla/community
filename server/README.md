@@ -2,7 +2,7 @@
  * @Description: 说明文档
  * @Author: homobulla
  * @Date: 2019-08-13 12:02:24
- * @LastEditTime: 2019-08-23 16:05:26
+ * @LastEditTime: 2019-08-26 15:42:35
  * @LastEditors: Please set LastEditors
  -->
 
@@ -64,18 +64,24 @@
 ### 登录逻辑问题
 
 cookie 以及 JWT
-将另一个项目中的 TOKEN 登录逻辑扔过来。
+即首先生成一个 24 小时的`toekn`，然后将其扔到`cookie`里，放`cookie`里的考虑是登录状态的处理完全放在后端部分，前端就不用在请求头里做处理，同时也更方面的操作登录状态。
 
-### package.json
-
--   [koa-helmet](https://juejin.im/post/5bd1e6136fb9a05d0a057316): 设置 Http 头保障应用程序安全
-
-### 登录相关
+### 登录&安全相关
 
 首先用 ip 和其他参数生成一个 `token`，然后设置一个签名的`cookie`来进行存放`token`，让前端接口请求自动携带`cookie`，不知道这样绕了一圈有没有什么问题。
 
-其次是账号密码传输的问题，明文传输。
+bug: 发送的签名`cookie`结果自动将原始值也发送了过去；
+账户密码部分使用了 `rsa`来进行加密处理。
+[koa-helmet](https://juejin.im/post/5bd1e6136fb9a05d0a057316): 设置 Http 头保障应用程序安全
 
 ### 问题
 
 1. 签名`cookie`发送的同时也把明文的传了过去。
+
+### 压力测试
+
+使用`wrk`进行压力测试，因为电脑系统`win10`,所以顺带尝试了一下`docker`的使用。
+本地测试结果如下:（500 个 TCP 链接在 60 秒内的请求数量与延迟情况
+![wrk压力测试](./img/wrk.png)
+
+可以使用`lua`脚本进行更复杂的测试

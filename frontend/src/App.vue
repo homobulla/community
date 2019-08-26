@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-12 17:57:52
- * @LastEditTime: 2019-08-26 11:50:23
+ * @LastEditTime: 2019-08-26 15:55:34
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -54,7 +54,6 @@ export default {
                         localStorage.removeItem("name");
                         localStorage.removeItem("userId");
                         this.LOGIN_STATUS(false);
-                        window.reload();
                     }
                 })
                 .catch(err => {});

@@ -2,7 +2,7 @@
  * @Description: 入口文件
  * @Author: homobulla
  * @Date: 2019-08-13 12:02:24
- * @LastEditTime: 2019-08-23 15:47:00
+ * @LastEditTime: 2019-08-26 16:31:36
  * @LastEditors: Please set LastEditors
  */
 const Koa = require("koa");
@@ -10,6 +10,7 @@ const path = require("path");
 const bodyParse = require("koa-bodyparser");
 const helmet = require("koa-helmet");
 const config = require("./config/default.js");
+const InterceptUrl = require("./middlewares/Intercept");
 var cors = require("koa2-cors");
 const app = new Koa();
 const server = require("http").createServer(app.callback());
@@ -21,13 +22,20 @@ app.keys = config.cookieKey; //设置签名的 Cookie 密钥。
 // cors配置
 app.use(
     cors({
-        origin: "http://10.0.0.101:8080", // 可以是一个函数，将ctx对象传入针对不同请求做区分
+        origin: function(ctx) {
+            if (config.Allow_Origin.find(item => item == ctx.header.origin)) {
+                return ctx.header.origin;
+            } else {
+                return false;
+            }
+        },
         credentials: true,
         allowMethods: ["GET", "POST", "DELETE", "PUT"],
         allowHeaders: ["Content-Type", "Authorization", "Accept"]
     })
 );
 app.use(helmet()); //安全检测
+app.use(InterceptUrl());
 app.use(JWTToken());
 
 // 服务端渲染模板引擎

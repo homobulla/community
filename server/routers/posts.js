@@ -1,8 +1,13 @@
+/*
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-08-13 12:02:24
+ * @LastEditTime: 2019-08-26 16:08:41
+ * @LastEditors: Please set LastEditors
+ */
 const router = require("koa-router")();
 const userModel = require("../lib/mysql");
 const moment = require("moment");
-const { checkNotLogin, checkLogin } = require("../middlewares/JWTPath");
-const md = require("markdown-it")();
 const colors = require("colors");
 const app = require("../index");
 const controller = require("../Controller/index");
