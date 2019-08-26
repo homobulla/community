@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-12 17:57:52
- * @LastEditTime: 2019-08-23 19:09:04
+ * @LastEditTime: 2019-08-26 11:50:23
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -15,7 +15,6 @@
                     </v-btn>
                     <v-btn class="deep-purple lighten-2">我的文章</v-btn>
                     <v-btn class="blue lighten-3">发布文章</v-btn>
-
                     <v-btn class="primary" v-if="$store.state.isLogin" @click="loginout">退出登录</v-btn>
                     <v-btn class="primary" v-else>
                         <router-link to="/login">登录</router-link>
@@ -54,8 +53,8 @@ export default {
                         localStorage.removeItem("login");
                         localStorage.removeItem("name");
                         localStorage.removeItem("userId");
-                        this.isLogin = localStorage.getItem("login");
                         this.LOGIN_STATUS(false);
+                        window.reload();
                     }
                 })
                 .catch(err => {});

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-16 17:32:50
- * @LastEditTime: 2019-08-23 18:56:27
+ * @LastEditTime: 2019-08-26 11:39:29
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -46,7 +46,10 @@ export default {
                         localStorage.setItem("userId", res.data.id);
                         localStorage.setItem("name", res.data.user);
                         localStorage.setItem("login", "success");
-                        this.LOGIN_STATUS(false);
+                        this.LOGIN_STATUS(true);
+                        let path = this.$route.query.redirect;
+                        path = path ? path : "/";
+                        this.$router.push(path);
                     }
                 })
                 .catch(err => {

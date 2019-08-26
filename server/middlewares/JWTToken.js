@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-19 17:22:28
- * @LastEditTime: 2019-08-23 15:46:37
+ * @LastEditTime: 2019-08-26 11:46:51
  * @LastEditors: Please set LastEditors
  */
 const jwt = require("jsonwebtoken");
@@ -17,6 +17,7 @@ const JWTPath = require("./JWTPath");
 module.exports = function() {
     return async function(ctx, next) {
         // 检测过滤的路由就不做解析JWT了
+        console.log(ctx.request.url);
         if (JWTPath.find(item => item === ctx.request.url)) {
             await next();
             return false;
