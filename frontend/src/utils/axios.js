@@ -2,9 +2,10 @@
  * @Description: 封装axios
  * @Author: homobulla
  * @Date: 2019-08-13 10:23:30
- * @LastEditTime: 2019-08-26 15:56:54
+ * @LastEditTime: 2019-08-27 17:05:47
  * @LastEditors: Please set LastEditors
  */
+
 import axios from "axios";
 import QS from "qs";
 
