@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-12 17:57:52
- * @LastEditTime: 2019-08-26 11:45:29
+ * @LastEditTime: 2019-08-30 11:52:19
  * @LastEditors: Please set LastEditors
  */
 import Vue from "vue";
@@ -10,8 +10,9 @@ import Router from "vue-router";
 import Home from "./views/Home.vue";
 import store from "./store";
 Vue.use(Router);
+console.log(process.env.BASE_URL, "process.env.BASE_URL");
 const route = new Router({
-    mode: "hash",
+    mode: "history",
     base: process.env.BASE_URL,
     routes: [
         {

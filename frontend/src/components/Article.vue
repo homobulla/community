@@ -47,7 +47,7 @@ export default {
 
     computed: {
         isLink: function() {
-            return this.href ? `/#/postView?id=${this.i.id}` : "javascript:;";
+            return this.href ? `/postView?id=${this.i.id}` : "javascript:;";
         }
     }
 };
