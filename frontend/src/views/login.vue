@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-16 17:32:50
- * @LastEditTime: 2019-08-26 11:39:29
+ * @LastEditTime: 2019-09-04 18:57:50
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -28,9 +28,14 @@ export default {
             password: ""
         };
     },
+    created() {
+        // console.log(this.$route.path);
+    },
     methods: {
         ...mapMutations(["LOGIN_STATUS"]),
         login() {
+            console.log(this.$route.path);
+
             if (!this.name || !this.password) {
                 this.$toast({
                     content: "请填写完整信息",
