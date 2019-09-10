@@ -10,6 +10,7 @@ import Router from "vue-router";
 import Home from "./views/Home.vue";
 import store from "./store";
 Vue.use(Router);
+//测试合并分支的问题
 console.log(process.env.BASE_URL, "process.env.BASE_URL");
 const route = new Router({
     mode: "history",
