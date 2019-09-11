@@ -2,12 +2,12 @@
  * @Description: 状态管理
  * @Author: homobulla
  * @Date: 2019-08-12 17:57:52
- * @LastEditTime: 2019-09-11 12:46:19
+ * @LastEditTime: 2019-09-11 14:23:23
  * @LastEditors: Please set LastEditors
  */
 import Vue from "vue";
 import Vuex from "vuex";
-
+import createPersistedState from "vuex-persistedstate";
 Vue.use(Vuex);
 
 import { LOGIN_STATUS, LOGIN_INFO } from "./store/mutation-types.js";
@@ -30,5 +30,6 @@ export default new Vuex.Store({
             Object.assign(state, obj);
         }
     },
-    actions: {}
+    actions: {},
+    plugins: [createPersistedState()]
 });
