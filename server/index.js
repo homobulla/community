@@ -2,7 +2,7 @@
  * @Description: 入口文件
  * @Author: homobulla
  * @Date: 2019-08-13 12:02:24
- * @LastEditTime: 2019-08-26 16:31:36
+ * @LastEditTime: 2019-09-11 11:56:03
  * @LastEditors: Please set LastEditors
  */
 const Koa = require("koa");
@@ -16,7 +16,7 @@ const app = new Koa();
 const server = require("http").createServer(app.callback());
 const io = require("socket.io")(server);
 const logger = require("./middlewares/logger");
-// module.exports = { io };
+module.exports = { io };
 const JWTToken = require("./middlewares/JWTToken");
 app.keys = config.cookieKey; //设置签名的 Cookie 密钥。
 // cors配置

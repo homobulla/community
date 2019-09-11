@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-16 17:32:50
- * @LastEditTime: 2019-09-04 18:57:50
+ * @LastEditTime: 2019-09-11 12:43:37
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -32,7 +32,7 @@ export default {
         // console.log(this.$route.path);
     },
     methods: {
-        ...mapMutations(["LOGIN_STATUS"]),
+        ...mapMutations(["LOGIN_STATUS", "LOGIN_INFO"]),
         login() {
             console.log(this.$route.path);
 
@@ -48,10 +48,14 @@ export default {
                 .then(res => {
                     this.$loading(false);
                     if (res.success) {
+                        console.log(res.data.id, "return data");
                         localStorage.setItem("userId", res.data.id);
                         localStorage.setItem("name", res.data.user);
                         localStorage.setItem("login", "success");
                         this.LOGIN_STATUS(true);
+                        this.LOGIN_INFO({ id: res.data.id });
+                        this.LOGIN_INFO({ user: res.data.user });
+
                         let path = this.$route.query.redirect;
                         path = path ? path : "/";
                         this.$router.push(path);

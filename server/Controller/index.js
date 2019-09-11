@@ -2,7 +2,7 @@
  * @Description: 业务函数
  * @Author: homobulla
  * @Date: 2019-08-16 14:34:22
- * @LastEditTime: 2019-08-23 15:43:42
+ * @LastEditTime: 2019-09-11 12:26:18
  * @LastEditors: Please set LastEditors
  */
 const Mysql = require("../lib/mysql");
@@ -10,6 +10,7 @@ const responseData = require("../middlewares/responseData");
 const moment = require("moment");
 const { commentSchemas } = require("../lib/validator");
 const colors = require("colors");
+const app = require("../index.js");
 class PostModel extends Mysql {
     constructor(ctx, next) {
         super();
@@ -109,13 +110,14 @@ class PostModel extends Mysql {
             .updatePostComment([res_comments, postId])
             .then(() => {
                 //  user 评论人 person发帖人即需要通知的人
-                // if (ctx.session.user != person) {
-                //     app.io.emit("comment", { user: ctx.session.user, person, url });
-                // }
+                if (name != person) {
+                    app.io.emit("comment", { user: name, person, url });
+                }
                 let log = "评论成功！";
                 responseData(ctx, { log });
             })
             .catch(err => {
+                console.log(err);
                 let log = "评论失败！";
                 responseData(ctx, { log });
             });

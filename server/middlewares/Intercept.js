@@ -1,8 +1,8 @@
 /*
- * @Description: In User Settings Edit
+ * @Description: 跨域请求的业务拦截
  * @Author: your name
  * @Date: 2019-08-26 16:27:04
- * @LastEditTime: 2019-08-26 16:29:48
+ * @LastEditTime: 2019-09-11 11:18:51
  * @LastEditors: Please set LastEditors
  */
 const config = require("../config/default");

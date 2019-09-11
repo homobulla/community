@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-12 17:57:52
- * @LastEditTime: 2019-09-04 18:59:13
+ * @LastEditTime: 2019-09-11 13:01:11
  * @LastEditors: Please set LastEditors
  */
 import Vue from "vue";
@@ -11,9 +11,8 @@ import Home from "./views/Home.vue";
 import store from "./store";
 Vue.use(Router);
 //测试合并分支的问题
-console.log(process.env.BASE_URL, "process.env.BASE_URL");
 const route = new Router({
-    mode: "history",
+    mode: "hash",
     base: process.env.BASE_URL,
     routes: [
         {
@@ -40,6 +39,7 @@ const route = new Router({
 
 route.beforeEach((to, from, next) => {
     if (to.meta.login) {
+        console.log(store.state, "state");
         if (!store.state.isLogin) {
             route.replace({
                 path: "/login",
