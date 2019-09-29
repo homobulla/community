@@ -28,7 +28,4 @@ app.use(async ctx => {
     ctx.body = "Hello World";
 });
 
-app.listen(3000);
-app.listen(3001);
-
 // 执行顺序 1 3 4 2

@@ -2,7 +2,7 @@
  * @Description: 入口文件
  * @Author: homobulla
  * @Date: 2019-08-13 12:02:24
- * @LastEditTime: 2019-09-11 11:56:03
+ * @LastEditTime: 2019-09-24 15:22:14
  * @LastEditors: Please set LastEditors
  */
 const Koa = require("koa");
@@ -51,7 +51,7 @@ app.use(require("./routers/signin.js").routes());
 app.use(require("./routers/posts.js").routes());
 
 // 错误处理中间件
-// app.use(logger());
+app.use(logger());
 
 app.use(function(ctx, next) {
     ctx.status = 404;

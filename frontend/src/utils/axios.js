@@ -2,7 +2,7 @@
  * @Description: 封装axios
  * @Author: homobulla
  * @Date: 2019-08-13 10:23:30
- * @LastEditTime: 2019-08-27 17:05:47
+ * @LastEditTime: 2019-09-23 11:48:45
  * @LastEditors: Please set LastEditors
  */
 
@@ -13,9 +13,10 @@ import Vue from "vue";
 import router from "../router";
 import store from "../store";
 // 环境切换
+
 const surroundings = {
-    development: "http://10.0.0.101:4000/", //开发
-    production: "http://10.0.0.101:4000/" //生产
+    development: "http://127.0.0.1:4000/", //开发
+    production: "http://127.0.0.1:4000/" //生产
 };
 axios.defaults.baseURL = surroundings[process.env.NODE_ENV];
 
