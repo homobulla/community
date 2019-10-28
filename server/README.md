@@ -2,7 +2,7 @@
  * @Description: 说明文档
  * @Author: homobulla
  * @Date: 2019-08-13 12:02:24
- * @LastEditTime: 2019-08-26 15:42:35
+ * @LastEditTime: 2019-10-18 10:36:12
  * @LastEditors: Please set LastEditors
  -->
 
@@ -14,12 +14,12 @@
 
 ### 目录说明
 
--   config 存放默认文件
+-   config 存放默认文件-配置文件
 -   lib 存放操作数据库文件
--   middlewares 存放判断登录与否文件
--   public 存放样式和头像文件
+-   middlewares 存放判断登录与否文件-中间件
+-   public 存放样式和头像文件-静态资源
 -   routes 存放路由文件
--   views 存放模板文件
+-   views 存放模板文件-页面
 -   index 程序主文件
 -   package.json 包括项目名、作者、依赖 等等
 
@@ -70,7 +70,6 @@ cookie 以及 JWT
 
 首先用 ip 和其他参数生成一个 `token`，然后设置一个签名的`cookie`来进行存放`token`，让前端接口请求自动携带`cookie`，不知道这样绕了一圈有没有什么问题。
 
-bug: 发送的签名`cookie`结果自动将原始值也发送了过去；
 账户密码部分使用了 `rsa`来进行加密处理。
 [koa-helmet](https://juejin.im/post/5bd1e6136fb9a05d0a057316): 设置 Http 头保障应用程序安全
 
