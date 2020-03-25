@@ -2,8 +2,8 @@
  * @Description: 登录模块
  * @Author: homobulla
  * @Date: 2019-08-16 18:10:18
- * @LastEditTime: 2019-08-23 17:36:56
- * @LastEditors: Please set LastEditors
+ * @LastEditTime : 2020-01-12 12:55:20
+ * @LastEditors  : Please set LastEditors
  */
 const Mysql = require("../lib/mysql");
 const md5 = require("md5");
@@ -47,7 +47,7 @@ class LoginModel extends Mysql {
         if (ret) return;
         await super
             .findDataByName(name)
-            .then(res => {
+            .then((res) => {
                 let log = "登录成功!";
                 let code;
                 let data = {};
@@ -59,12 +59,12 @@ class LoginModel extends Mysql {
                     };
                     setCookie(ctx, "seesion", token);
                 } else {
-                    code = 200;
+                    code = 401;
                     log = "登录失败，账户或密码错误！";
                 }
                 responseData(ctx, { data, log, code });
             })
-            .catch(err => {
+            .catch((err) => {
                 console.log(err, "errr");
                 ctx.status = 500;
                 responseData(ctx, { code: 500, log: err });

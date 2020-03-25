@@ -2,8 +2,8 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-13 12:02:24
- * @LastEditTime: 2019-10-18 15:13:19
- * @LastEditors: Please set LastEditors
+ * @LastEditTime : 2020-01-10 12:46:02
+ * @LastEditors  : Please set LastEditors
  */
 const mysql = require("mysql");
 const config = require("../config/default");
@@ -54,7 +54,8 @@ class Mysqls {
         return new Promise((resolve, reject) => {
             pool.getConnection(function(err, connection) {
                 if (err) {
-                    console.log("链接数据库失败");
+                    console.error("链接数据库失败");
+                    reject("链接数据库失败");
                     return;
                 } else {
                     connection.query(sql, values, (err, rows) => {
