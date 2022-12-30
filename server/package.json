@@ -30,7 +30,7 @@
         "koa-helmet": "5.1.0",
         "koa-session": "5.12.2",
         "log4js": "4.5.1",
-        "mocha": "6.2.0",
+        "mocha": "10.2.0",
         "node-rsa": "1.0.5",
         "socket.io": "2.2.0"
     }
