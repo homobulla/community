@@ -18,8 +18,8 @@
     "vuex-persistedstate": "2.5.4"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.10.0",
-    "@vue/cli-service": "^3.10.0",
+    "@vue/cli-plugin-babel": "^5.0.8",
+    "@vue/cli-service": "^5.0.8",
     "material-design-icons-iconfont": "5.0.1",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.1.0",
